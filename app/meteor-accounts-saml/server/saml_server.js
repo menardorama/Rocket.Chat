@@ -233,6 +233,8 @@ Accounts.registerLoginHandler(function(loginRequest) {
 	if (!loginRequest.saml || !loginRequest.credentialToken) {
 		return undefined;
 	}
+	debugLog(`credentialToken :${loginRequest.credentialToken) }`);
+	debugLog(`saml :${loginRequest.saml) }`);
 
 	const loginResult = Accounts.saml.retrieveCredential(loginRequest.credentialToken);
 	debugLog(`RESULT :${ JSON.stringify(loginResult) }`);
@@ -245,6 +247,13 @@ Accounts.registerLoginHandler(function(loginRequest) {
 	}
 
 	const { emailField, usernameField, nameField, userDataFieldMap, regexes } = getUserDataMapping();
+
+	debugLog(`emailField :${emailField) }`);
+	debugLog(`usernameField :${usernameField) }`);
+	debugLog(`nameField :${nameField) }`);
+	debugLog(`userDataFieldMap :${userDataFieldMap) }`);
+	debugLog(`regexes :${regexes) }`);
+
 	const { defaultUserRole = 'user', roleAttributeName, roleAttributeSync } = Accounts.saml.settings;
 
 	if (loginResult && loginResult.profile && loginResult.profile[emailField]) {
@@ -254,6 +263,12 @@ Accounts.registerLoginHandler(function(loginRequest) {
 		const eduPersonPrincipalName = loginResult.profile.eppn;
 		const profileFullName = getProfileValue(loginResult.profile, nameField, regexes.name);
 		const fullName = profileFullName || loginResult.profile.displayName || loginResult.profile.username;
+
+		debugLog(`emailList :${emailList) }`);
+		debugLog(`emailRegex :${emailRegex) }`);
+		debugLog(`eduPersonPrincipalName :${eduPersonPrincipalName) }`);
+		debugLog(`profileFullName :${profileFullName) }`);
+		debugLog(`fullName :${fullName) }`);
 
 		let eppnMatch = false;
 		let user = null;
@@ -274,6 +289,7 @@ Accounts.registerLoginHandler(function(loginRequest) {
 			const profileUsername = getProfileValue(loginResult.profile, usernameField, regexes.username);
 			if (profileUsername) {
 				username = Accounts.normalizeUsername(profileUsername);
+				debugLog(`username :${username) }`);
 			}
 		}
 
