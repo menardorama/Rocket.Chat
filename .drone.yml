@@ -36,7 +36,7 @@ pipeline:
       - /tmp/cache/Rocket.Chat:/cache
   docker:
     image: plugins/docker
-    repo: rocketchat/rocket.chat
+    repo: menardorama/Rocket.Chat
     dockerfile: /drone/build/Dockerfile
     storage_driver: overlay
     context: /drone/build
